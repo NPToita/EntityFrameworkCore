@@ -43,14 +43,14 @@ namespace Microsoft.EntityFrameworkCore.Infrastructure
         public virtual void Validate(IModel model)
         {
             ValidateNoShadowEntities(model);
+            ValidateDefiningNavigations(model);
+            ValidateOwnership(model);
             ValidateNonNullPrimaryKeys(model);
             ValidateNoShadowKeys(model);
             ValidateNoMutableKeys(model);
             ValidateNoCycles(model);
             ValidateClrInheritance(model);
             ValidateChangeTrackingStrategy(model);
-            ValidateDefiningNavigations(model);
-            ValidateOwnership(model);
             ValidateForeignKeys(model);
             ValidateFieldMapping(model);
             ValidateQueryFilters(model);
@@ -346,6 +346,10 @@ namespace Microsoft.EntityFrameworkCore.Infrastructure
                                 entityType.DisplayName(),
                                 ownership.PrincipalEntityType.DisplayName()));
                     }
+                }
+                else if (entityType.HasClrType() ? model.ShouldBeOwnedType(entityType.ClrType) : model.ShouldBeOwnedType(entityType.Name))
+                {
+                    throw new InvalidOperationException(CoreStrings.OwnerlessOwnedType(entityType.DisplayName()));
                 }
             }
         }

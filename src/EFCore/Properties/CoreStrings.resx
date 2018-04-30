@@ -1078,4 +1078,7 @@
   <data name="ErrorInvalidQueryable" xml:space="preserve">
     <value>Cannot use multiple DbContext instances within a single query execution. Ensure the query uses a single context instance.</value>
   </data>
+  <data name="OwnerlessOwnedType" xml:space="preserve">
+    <value>The owned entity type '{ownedType}' requires to be referenced from another entity type via a navigation. Add a navigation to an entity type that points at '{ownedType}'.</value>
+  </data>
 </root>
